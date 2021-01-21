@@ -3,32 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kali <kali@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: agardet <agardet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 11:07:16 by agardet           #+#    #+#             */
-/*   Updated: 2021/01/20 18:48:22 by kali             ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 16:27:09 by agardet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-
-static char	*ft_save_line(char *buf)
+static char	*ft_get_line(char *save)
 {
-	char	*save;
-	size_t	i;
-	
-	while (buf[i] && buf[i] != '\n')
+	char	*line;
+	ssize_t	i;
+
+	i = 0;
+	while (save[i] && save[i] != '\n')
 		i++;
-	if (!(save = malloc(sizeof(char) * i + 1)))
+	if (!(line = malloc(sizeof(char) * (i + 1))))
 		return (NULL);
-	save[i] = 0;
+	line[i] = 0;
 	while (--i >= 0)
-		save=[i] = buf[i];
-	return(save);
+		line[i] = save[i];
+	return (line);
 }
 
-static char	*ft_rest_line(char *buf)
+static char	*ft_rest_line(char *save)
 {
 	char	*rest;
 	size_t	i;
@@ -36,36 +36,52 @@ static char	*ft_rest_line(char *buf)
 
 	i = 0;
 	j = 0;
-	while (buf[i])
-	{
-		if (buf[i] == '\n')
-		{
-			if (!(rest = maloc(sizeof(char))))
-				return (NULL);
-			while (buf[i])
-				rest[j++] == buf[i++];
-			
+	if (!save)
+		return (NULL);
+	while (save[i] && save[i] != '\n')
 		i++;
+	if (save[i] == '\n')
+	{
+		i++;
+		if (!(rest = malloc(sizeof(char) * (ft_strlen(save) - i + 1))))
+			return (NULL);
+		while (save[i])
+			rest[j++] = save[i++];
+		rest[j] = 0;
 	}
-	rest[j] = 0;
 	return (rest);
 }
 
-int		ft_error_handler(char *save, char *buf)
+static int		ft_error_handler(char *save, char *buf)
 {
-	free(save);
-	free(buf);
+	if (save)
+		free(save);
+	if (buf)
+		free(buf);
 	return (-1);
 }
 
 int		get_next_line(int fd, char **line)
 {
-	char *buf;
-	char *str;
+	static char	*save;
+	char		*buf;
+	int			ret;
 
-	if ((fd <= 0 || !line || BUFFER_SIZE <= 0) ||
+	if ((fd < 0 || !line || BUFFER_SIZE <= 0) ||
 				((!(buf = malloc(sizeof(char) * (BUFFER_SIZE + 1))))))
 		return (-1);
-	
+	ret = 1;
+	while ((ft_check_new_line(save) != 0) && (ret != 0))
+	{
+		if ((ret = read(fd, buf, BUFFER_SIZE)) < 0)
+			return (ft_error_handler(save, buf));
+		save = ft_strjoin(save, buf);
+	}
+	free(buf);
+	*line = ft_get_line(save);
+	//	 printf("SAVE VAUT %s\n", *line);
+	save = ft_rest_line(save);
+	if (ret != 0)
+		return (1);
+	return (0);
 }
-

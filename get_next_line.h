@@ -6,21 +6,20 @@
 /*   By: agardet <agardet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 12:32:02 by agardet           #+#    #+#             */
-/*   Updated: 2021/01/20 16:39:33 by agardet          ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 15:51:40 by agardet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFFER_SIZE 15
 
 # include <stdlib.h>
 # include <sys/types.h>
+# include <unistd.h>
 
-static char			*ft_strjoin(char *s1, char *s2);
-static char			*ft_strcat(const char *dst, const char *src);
-static size_t		ft_strlen(const char *s);
-//static char			*ft_check_new_line(char *str);
-static size_t		ft_count_line(char *buf);
-
+ssize_t	ft_check_new_line(char *buf);
+char		*ft_strjoin(char *s1, char *s2);
+char		*ft_strcat(const char *dst, const char *src);
+size_t	ft_strlen(const char *s);
+int				get_next_line(int fd, char **line);
 #endif

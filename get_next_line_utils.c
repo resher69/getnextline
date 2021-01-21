@@ -6,39 +6,37 @@
 /*   By: agardet <agardet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 12:31:17 by agardet           #+#    #+#             */
-/*   Updated: 2021/01/20 16:39:26 by agardet          ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 15:48:54 by agardet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static size_t	ft_check_new_line(char *buf)
+ssize_t	ft_check_new_line(char *buf)
 {
+	size_t	i;
 
+	if (!buf)
+		return (-1);
+	i = 0;
+	while (buf[i])
+	{
+		if (buf[i] && buf[i] == '\n')
+			return (0);
+		i++;
+	}
+	return (-1);
 }
 
-static size_t	ft_count_line(char *buf)
-{
-	ssize_t	i;
-	size_t	count;
-
-	i = -1;
-	count = 0;
-	while (buf[++i])
-		if (buf[i] == '\n')
-			count++;
-	return (count);
-}
-
-static char		*ft_strjoin(char *s1, char *s2)
+char		*ft_strjoin(char *s1, char *s2)
 {
 	size_t	total_len;
 	char	*res;
 
-	if (!s1 || !s2)
-		return (NULL);
+	if (!s1)
+		return (s2);
 	total_len = ft_strlen(s1) + ft_strlen(s2);
-	if (!(res = alloc(sizeof(char) * (total_len + 1))))
+	if (!(res = malloc(sizeof(char) * (total_len + 1))))
 		return (NULL);
 	ft_strcat(res, (char *)s1);
 	ft_strcat(res, (char *)s2);
@@ -46,7 +44,7 @@ static char		*ft_strjoin(char *s1, char *s2)
 	return (res);
 }
 
-static char		*ft_strcat(const char *dst, const char *src)
+char		*ft_strcat(const char *dst, const char *src)
 {
 	int		i;
 	int		j;
@@ -68,7 +66,7 @@ static char		*ft_strcat(const char *dst, const char *src)
 	return (dst_cpy);
 }
 
-static size_t	ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
