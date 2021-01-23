@@ -6,7 +6,7 @@
 /*   By: agardet <agardet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 12:31:17 by agardet           #+#    #+#             */
-/*   Updated: 2021/01/21 15:48:54 by agardet          ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 13:44:33 by agardet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ ssize_t	ft_check_new_line(char *buf)
 	i = 0;
 	while (buf[i])
 	{
-		if (buf[i] && buf[i] == '\n')
+		if (buf[i] == '\n')
 			return (0);
 		i++;
 	}
@@ -31,39 +31,45 @@ ssize_t	ft_check_new_line(char *buf)
 char		*ft_strjoin(char *s1, char *s2)
 {
 	size_t	total_len;
+	size_t	i;
 	char	*res;
 
-	if (!s1)
-		return (s2);
-	total_len = ft_strlen(s1) + ft_strlen(s2);
+	if (!s2)
+		return (NULL);
+	i  = ft_strlen(s1);
+	total_len = i + ft_strlen(s2);
 	if (!(res = malloc(sizeof(char) * (total_len + 1))))
 		return (NULL);
+	*res = 0;
 	ft_strcat(res, (char *)s1);
 	ft_strcat(res, (char *)s2);
 	res[total_len] = 0;
+	free(s1);
 	return (res);
 }
 
-char		*ft_strcat(const char *dst, const char *src)
+char		*ft_strcat(char *dst, const char *src)
 {
 	int		i;
 	int		j;
-	char	*dst_cpy;
 	char	*src_cpy;
 
+	if (!dst)
+		return (NULL);
+	if (!src)
+		return (dst);
 	i = 0;
 	j = 0;
-	dst_cpy = (char *)dst;
 	src_cpy = (char *)src;
-	while (dst_cpy[i])
+	while (dst[i])
 		i++;
 	while (src_cpy[j])
 	{
-		dst_cpy[i + j] = src[j];
+		dst[i + j] = src[j];
 		j++;
 	}
-	dst_cpy[i + j] = 0;
-	return (dst_cpy);
+	dst[i + j] = 0;
+	return (dst);
 }
 
 size_t	ft_strlen(const char *s)

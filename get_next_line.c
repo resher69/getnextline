@@ -6,13 +6,13 @@
 /*   By: agardet <agardet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 11:07:16 by agardet           #+#    #+#             */
-/*   Updated: 2021/01/21 16:27:09 by agardet          ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 14:25:48 by agardet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*ft_get_line(char *save)
+static char		*ft_get_line(char *save)
 {
 	char	*line;
 	ssize_t	i;
@@ -28,7 +28,16 @@ static char	*ft_get_line(char *save)
 	return (line);
 }
 
-static char	*ft_rest_line(char *save)
+static int		ft_error_handler(char *save, char *buf)
+{
+	if (save)
+		free(save);
+	if (buf)
+		free(buf);
+	return (-1);
+}
+
+static char		*ft_rest_line(char *save)
 {
 	char	*rest;
 	size_t	i;
@@ -40,25 +49,16 @@ static char	*ft_rest_line(char *save)
 		return (NULL);
 	while (save[i] && save[i] != '\n')
 		i++;
-	if (save[i] == '\n')
-	{
-		i++;
-		if (!(rest = malloc(sizeof(char) * (ft_strlen(save) - i + 1))))
-			return (NULL);
-		while (save[i])
-			rest[j++] = save[i++];
-		rest[j] = 0;
-	}
-	return (rest);
-}
-
-static int		ft_error_handler(char *save, char *buf)
-{
-	if (save)
+	if (save[i] == 0)
 		free(save);
-	if (buf)
-		free(buf);
-	return (-1);
+	if (!(save) || (rest = malloc(sizeof(char) * (ft_strlen(save) - i + 1))))
+		return (NULL);
+	i++;
+	while (save[i])
+		rest[j++] = save[i++];
+	rest[j] = 0;
+	free(save);
+	return (rest);
 }
 
 int		get_next_line(int fd, char **line)
@@ -75,13 +75,14 @@ int		get_next_line(int fd, char **line)
 	{
 		if ((ret = read(fd, buf, BUFFER_SIZE)) < 0)
 			return (ft_error_handler(save, buf));
+		buf[ret] = 0;
 		save = ft_strjoin(save, buf);
 	}
 	free(buf);
 	*line = ft_get_line(save);
-	//	 printf("SAVE VAUT %s\n", *line);
 	save = ft_rest_line(save);
 	if (ret != 0)
 		return (1);
+	free(save);
 	return (0);
 }

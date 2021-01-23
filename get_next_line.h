@@ -6,7 +6,7 @@
 /*   By: agardet <agardet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 12:32:02 by agardet           #+#    #+#             */
-/*   Updated: 2021/01/21 15:51:40 by agardet          ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 12:19:06 by agardet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 ssize_t	ft_check_new_line(char *buf);
 char		*ft_strjoin(char *s1, char *s2);
-char		*ft_strcat(const char *dst, const char *src);
+char		*ft_strcat(char *dst, const char *src);
 size_t	ft_strlen(const char *s);
 int				get_next_line(int fd, char **line);
 #endif
