@@ -6,7 +6,7 @@
 /*   By: agardet <agardet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 12:31:17 by agardet           #+#    #+#             */
-/*   Updated: 2021/01/23 13:44:33 by agardet          ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 13:20:44 by agardet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,11 @@ ssize_t	ft_check_new_line(char *buf)
 char		*ft_strjoin(char *s1, char *s2)
 {
 	size_t	total_len;
-	size_t	i;
 	char	*res;
 
 	if (!s2)
 		return (NULL);
-	i  = ft_strlen(s1);
-	total_len = i + ft_strlen(s2);
+	total_len = ft_strlen(s1) + ft_strlen(s2);
 	if (!(res = malloc(sizeof(char) * (total_len + 1))))
 		return (NULL);
 	*res = 0;

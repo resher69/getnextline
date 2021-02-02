@@ -6,7 +6,7 @@
 /*   By: agardet <agardet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 11:07:16 by agardet           #+#    #+#             */
-/*   Updated: 2021/01/23 14:25:48 by agardet          ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 14:19:19 by agardet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,11 @@ static char		*ft_rest_line(char *save)
 	while (save[i] && save[i] != '\n')
 		i++;
 	if (save[i] == 0)
+	{
 		free(save);
-	if (!(save) || (rest = malloc(sizeof(char) * (ft_strlen(save) - i + 1))))
+		return (NULL);
+	}
+	if (!(rest = malloc(sizeof(char) * (ft_strlen(save) - i + 1))))
 		return (NULL);
 	i++;
 	while (save[i])
