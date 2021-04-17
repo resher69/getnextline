@@ -6,7 +6,7 @@
 /*   By: agardet <agardet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 11:07:16 by agardet           #+#    #+#             */
-/*   Updated: 2021/02/02 14:19:19 by agardet          ###   ########lyon.fr   */
+/*   Updated: 2021/04/17 16:00:33 by agardet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int		get_next_line(int fd, char **line)
 	}
 	free(buf);
 	*line = ft_get_line(save);
+	if (!*line)
+		return (-1);
 	save = ft_rest_line(save);
 	if (ret != 0)
 		return (1);
